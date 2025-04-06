@@ -35,6 +35,23 @@ class CarController {
 
     final newCar = {"name": title};
     final response = await http.post(url, body: jsonEncode(newCar));
-    print(response);
+
+    final decodeData = jsonDecode(response.body);
+    newCar["id"] = decodeData["name"];
+
+    cars.add(CarModel.fromJson(newCar));
+  }
+
+  Future<void> editCar({required String id, required String name}) async {
+    final url = Uri.parse("$_baseUrl/cars/$id.json");
+
+    final updateingCar = {"name": name};
+    final response = await http.patch(url, body: jsonEncode(updateingCar));
+  }
+
+  Future<void> deleteCar({required String id}) async {
+    final url = Uri.parse("$_baseUrl/cars/$id.json");
+
+    final response = await http.delete(url);
   }
 }

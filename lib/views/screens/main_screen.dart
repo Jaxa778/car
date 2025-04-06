@@ -1,5 +1,6 @@
 import 'package:api/controllers/car_controller.dart';
-import 'package:api/views/widgets/show_dialog_for_car.dart';
+import 'package:api/views/widgets/add_show_dialog.dart';
+import 'package:api/views/widgets/edit_show_dialog.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,13 +19,16 @@ class _MainScreenState extends State<MainScreen> {
         title: Text("Cars"),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              final result = showDialog(
                 context: context,
                 builder: (context) {
-                  return ShowDialogForCar();
+                  return ShowDialogForCar(carController: carController);
                 },
               );
+              if (result == true) {
+                setState(() {});
+              }
             },
             icon: Icon(Icons.add),
           ),
@@ -36,7 +40,9 @@ class _MainScreenState extends State<MainScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
+
           final cars = snapshot.data;
+
           if (cars == null || cars.isEmpty) {
             return Center(child: Text("Mashinalar mavjud emas."));
           }
@@ -50,8 +56,27 @@ class _MainScreenState extends State<MainScreen> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                    IconButton(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return EditShowDialog(
+                              carController: carController,
+                              carModel: car,
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(Icons.edit),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await carController.deleteCar(id: car.id);
+                        setState(() {});
+                      },
+                      icon: Icon(Icons.delete),
+                    ),
                   ],
                 ),
               );
