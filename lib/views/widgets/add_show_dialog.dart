@@ -29,6 +29,7 @@ class _ShowDialogForCarState extends State<ShowDialogForCar> {
   Widget build(BuildContext ctx) {
     return AlertDialog(
       content: Column(
+        spacing: 10,
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(

@@ -44,6 +44,7 @@ class _EditShowDialogState extends State<EditShowDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
+        spacing: 10,
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
