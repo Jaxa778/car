@@ -11,11 +11,17 @@ class ShowDialogForCar extends StatefulWidget {
 
 class _ShowDialogForCarState extends State<ShowDialogForCar> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController speedController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
   bool isLoading = false;
 
   @override
   void dispose() {
     nameController.dispose();
+    priceController.dispose();
+    speedController.dispose();
+    imageController.dispose();
     super.dispose();
   }
 
@@ -32,6 +38,27 @@ class _ShowDialogForCarState extends State<ShowDialogForCar> {
               hintText: "Name",
             ),
           ),
+          TextField(
+            controller: priceController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Price",
+            ),
+          ),
+          TextField(
+            controller: speedController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Speed",
+            ),
+          ),
+          TextField(
+            controller: imageController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Image",
+            ),
+          ),
         ],
       ),
       actions: [
@@ -44,13 +71,21 @@ class _ShowDialogForCarState extends State<ShowDialogForCar> {
         TextButton(
           onPressed: () async {
             final name = nameController.text;
+            final price = priceController.text;
+            final speed = speedController.text;
+            final image = imageController.text;
 
             if (name.isNotEmpty) {
               setState(() {
                 isLoading = true;
               });
 
-              await widget.carController.addCar(name);
+              await widget.carController.addCar(
+                name: name,
+                image: image,
+                price: price,
+                speed: speed,
+              );
 
               setState(() {
                 isLoading = false;
