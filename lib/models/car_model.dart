@@ -18,8 +18,24 @@ class CarModel {
       name: json["name"],
       id: json["id"],
       image: json["image"],
-      speed:  int.tryParse(json["speed"].toString()) ?? 0,
+      speed: int.tryParse(json["speed"].toString()) ?? 0,
       price: json["price"],
+    );
+  }
+
+  CarModel copyWith({
+    String? name,
+    String? id,
+    String? image,
+    int? speed,
+    String? price,
+  }) {
+    return CarModel(
+      name: name ?? this.name,
+      id: id ?? this.id,
+      image: image ?? this.image,
+      price: price ?? this.price,
+      speed: speed ?? this.speed,
     );
   }
 }
